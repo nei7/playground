@@ -1,0 +1,5 @@
+# Shared by the whole sandbox. Keep language-specific things
+# (e.g. build directories) in the given subfolder's .gitignore.
+.direnv/
+.cache/
+.claude/settings.local.json

@@ -1,0 +1,37 @@
+{
+  // Tasks operate on the file open in the editor:
+  //   Ctrl+Shift+B                       compiles the current file
+  //   Tasks: Run Test Task               compiles and runs the current file
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build current file",
+      "type": "shell",
+      "command": "make ${fileBasenameNoExtension}",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "clear": true }
+    },
+    {
+      "label": "run current file",
+      "type": "shell",
+      "command": "make run-${fileBasenameNoExtension}",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "clear": true, "focus": true }
+    },
+    {
+      "label": "run current file (no sanitizers)",
+      "type": "shell",
+      "command": "make run-${fileBasenameNoExtension} SAN=0",
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "clear": true, "focus": true }
+    },
+    {
+      "label": "build all",
+      "type": "shell",
+      "command": "make all",
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

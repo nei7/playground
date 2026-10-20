@@ -1,0 +1,31 @@
+{
+  // direnv loads .envrc (nix shell) so that clangd and gdb are visible.
+  "direnv.restart.automatic": true,
+
+  // clangd reads compile_commands.json from the root directory.
+  // The file is created on the first `make`; when it changes, clangd reloads it on its own.
+  "clangd.path": "clangd",
+  "clangd.checkUpdates": false,
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=never",
+    "--completion-style=detailed",
+    "--query-driver=/nix/store/*/bin/*"
+  ],
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": true
+  },
+
+  // cpptools stays only as the debugger (gdb), without IntelliSense.
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "C_Cpp.autocomplete": "disabled",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.formatting": "disabled",
+
+  "files.exclude": {
+    "**/.direnv": true,
+    "**/.cache": true
+  }
+}
