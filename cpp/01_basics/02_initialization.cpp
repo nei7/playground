@@ -58,6 +58,4 @@
 #include <string>
 #include <type_traits>
 
-int main() {
-    // TODO
-}
+int main() {}
