@@ -58,4 +58,69 @@
 #include <string>
 #include <type_traits>
 
-int main() {}
+constexpr int square(int x) {
+    return x * x;
+}
+
+int main() {
+    // 1
+    int x = 1;
+    std::println("{}", x);
+
+    // 2.
+    // int a = 5;
+    // int b(5);
+    // int c{5};
+    // int d = {5};
+    // int e{};
+    // std::println("{} {} {} {} {}", a, b, c, d, e);
+
+    // 3, kompilator traktuje to jako stowrzeni efunkcji ktora zwraca string problem nazywa
+    // sie most vexing parse (najbardziej irytujaca analiza skłądniowa)
+    // std::string s();
+    std::string s{};
+
+    // 4.
+
+    auto a = 5;
+    auto b = 5.0;
+    auto c = 5.0f;
+    auto d = 5u;
+    auto e = 5L;
+    auto f = 'x';
+    auto g = "text";
+    auto h = std::string{"text"};
+    auto i = true;
+    auto j = 5 / 2.0;
+    auto k = 5 / 2;
+
+    static_assert(std::is_same_v<decltype(a), int>);
+    static_assert(std::is_same_v<decltype(b), double>);
+
+    // 5.
+    // const int n = 5;
+    // n = 6;
+    const auto m = 5;
+    auto const m2 = 4;
+
+    // 6.
+    constexpr int ksize = 10;
+    int arr[ksize]{};
+    int size = 10;
+    int arr2[size];
+    std::println("{}", sizeof(arr));
+
+    static_assert(square(4) == 16);
+
+    std::println("{}", square(4));
+
+    // 7 .
+    int v = 1;
+
+    {
+        int v = 2;
+        std::println("v scoped: {}", v);
+    }
+
+    std::println("after {}", v);
+}

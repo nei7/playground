@@ -51,15 +51,24 @@ endif
 # about system headers (--query-driver in .vscode/settings.json).
 CXX_ABS := $(shell command -v $(CXX))
 
-.PHONY: all clean format help $(NAMES)
+.PHONY: all clean format help FORCE $(NAMES)
 
 all: $(BINS)
 
 # `make 01_types` is a shortcut for `make bin/01_types`.
 $(NAMES): %: bin/%
 
-bin/%: %.cpp | bin compile_commands.json
+bin/%: %.cpp bin/.flags | bin compile_commands.json
 	$(CXX) $(CXXFLAGS) $< -o $@
+
+# Make only compares timestamps, so `SAN=0` after a SAN=1 build would say
+# "Nothing to be done" and keep the ASan binary. This file holds the flags of
+# the last build and is rewritten only when they change, which then makes
+# every binary out of date.
+bin/.flags: FORCE | bin
+	@echo '$(CXX) $(CXXFLAGS)' | cmp -s - $@ || echo '$(CXX) $(CXXFLAGS)' > $@
+
+FORCE:
 
 run-%: bin/%
 	@echo "--- $< ---"

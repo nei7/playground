@@ -48,9 +48,16 @@
 //           https://en.cppreference.com/w/cpp/types/numeric_limits
 //           https://en.cppreference.com/w/cpp/language/implicit_conversion
 
+#include <cmath>
 #include <cstdint>
 #include <limits>
 #include <print>
+
+using namespace std;
+
+bool nearly_equal(double x, double y) {
+    return std::fabs(x - y) <= std::numeric_limits<double>::epsilon();
+}
 
 int main() {
     // 1. I would use fixed-width types in a file format
@@ -87,7 +94,36 @@ int main() {
     std::println("double min: {}", std::numeric_limits<double>::lowest());
 
     // 3.
-    int big = std::numeric_limits<int>::max();
-    big = big + 1;
-    std::println("big: {}", big);
+    // int big = std::numeric_limits<int>::max();
+    // big = big + 1;
+    // std::println("big: {}", big);
+
+    // 4.
+    unsigned u = 0;
+    u = u - 1;
+
+    std::println("unsigned {}", u);
+
+    // 5.
+    int i = -1;
+    unsigned u1 = 1;
+    std::println("{}", i < u1);
+
+    // 6.
+    println("{} {} {} {}", 7 / 2, -7 / 2, 7 % 2, -7 % 2);
+    // int zero = 0;
+    // println("{}", 7 / zero);
+
+    // 7.
+    double a = 0.1 + 0.2;
+    println("{} {} {}", a == 0.3, a, nearly_equal(a, 0.3));
+    println("{:.20f}", a);
+
+    // 8.
+    int n = 3.99;
+    // int m{3.99};
+    int m{3};
+
+    char c = 300;
+    println("{}", static_cast<int>(c));
 }

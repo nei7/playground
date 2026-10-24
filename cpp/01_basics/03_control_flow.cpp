@@ -59,6 +59,172 @@
 #include <utility>
 #include <vector>
 
+enum class Light { Red, Yellow, Green };
+
+std::string light_name(Light l) {
+    switch (l) {
+    case Light::Green:
+        return "green";
+    case Light::Red:
+        return "red";
+
+    case Light::Yellow:
+        return "yellow";
+    };
+
+    std::unreachable();
+}
+
+std::string day_name(int d) {
+    std::string name;
+    switch (d) {
+    case 1:
+        name = "Mon";
+        break;
+    case 2:
+        name = "Tue";
+        break;
+
+    case 3:
+        name = "Wed";
+        // [[fallthrough]];
+        break;
+    case 4:
+        name = "Thu";
+        break;
+    case 5:
+        name = "Fri";
+        break;
+    case 6:
+        name = "Sat";
+        break;
+    case 7:
+        name = "Sun";
+        break;
+    default:
+        name = "?";
+    }
+    return name;
+}
+
+// 3
+bool is_prime(int n) {
+    if (n < 2)
+        return false;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int collatz_steps(long long n) {
+    int steps = 0;
+    while (n != 1) {
+        steps++;
+        n = n % 2 == 0 ? n / 2 : (3 * n) + 1;
+    }
+
+    return steps;
+}
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+int digit_sum(int n) {
+    int sum = 0;
+
+    do {
+        sum += n % 10;
+        n = n / 10;
+    } while (n > 0);
+
+    return sum;
+}
+
+std::string sign(int n) {
+    return n > 0 ? "positive" : n == 0 ? "zero" : "negative";
+}
+std::string sign2(int n) {
+    if (n > 0)
+        return "positive";
+
+    if (n < 0)
+        return "negative";
+
+    return "zero";
+}
+
 int main() {
     // TODO
+    // 1.
+
+    for (int n = 1; n <= 10; n++)
+        if (int r = n % 3; r == 0) {
+            std::println("Is dividable by 3");
+        } else if (r == 1) {
+            std::println("one over");
+        } else if (r == 2) {
+            std::println("two over");
+        }
+
+    // std::println("{}", r);
+
+    // 2.
+    std::println("{}", day_name(3));
+
+    Light light = Light::Green;
+    std::println("{}", light_name(light));
+
+    // int x = 32;
+
+    // std::println("{}", light_name(static_cast<Light>(x)));
+
+    // 3.
+    assert(is_prime(2) && is_prime(97) && !is_prime(1) && !is_prime(91));
+    assert(collatz_steps(1) == 0 && collatz_steps(6) == 8 && collatz_steps(27) == 111);
+    assert(gcd(12, 18) == 6 && gcd(7, 13) == 1 && gcd(0, 5) == 5);
+    assert(digit_sum(0) == 0 && digit_sum(1234) == 10);
+
+    // 4.
+    std::vector<int> v{1, 2, 3};
+
+    for (auto x : v)
+        x *= 2;
+
+    std::println("{}", v);
+
+    for (auto& x : v)
+        x *= 2;
+
+    std::println("{}", v);
+
+    // 5.
+
+    for (int n = 2, counter = 0;; ++n) {
+        if (is_prime(n)) {
+            counter++;
+            std::println("{}", n);
+        }
+        if (counter >= 10) {
+            break;
+        }
+    }
+
+    for (int i = 1; i <= 20; i++) {
+        if (i % 3 == 0) {
+            continue;
+        }
+        std::println("{}", i);
+    }
 }

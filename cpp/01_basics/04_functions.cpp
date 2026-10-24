@@ -61,6 +61,48 @@
 #include <print>
 #include <string>
 
+void by_value(std::string s) {
+    s += '!';
+    std::println("{}", s);
+}
+void by_const_ref(const std::string& s) {
+    std::println("{}", s + "!");
+}
+
+void by_ref(std::string& s) {
+    s += '!';
+    std::println("{}", s);
+}
+
+int twice(int x);
+
+std::string describe(int n) {
+    return "int";
+}
+
 int main() {
     // TODO
+    // 1.
+    std::println("{}", twice(12));
+
+    // 2. only by_ref changes original value by_ref("abc") does not compile
+    std::string s{"abc"};
+
+    by_value(s);
+    by_value("abc");
+    std::println("{}", s);
+
+    by_const_ref(s);
+    by_const_ref("abc");
+    std::println("{}", s);
+
+    by_ref(s);
+    // by_ref("abc");
+    std::println("{}", s);
+
+    // 3.
+}
+
+int twice(int x) {
+    return 2 * x;
 }
