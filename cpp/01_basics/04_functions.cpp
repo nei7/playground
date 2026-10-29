@@ -80,6 +80,99 @@ std::string describe(int n) {
     return "int";
 }
 
+std::string describe(double n) {
+    return "double";
+}
+
+std::string describe(const std::string& n) {
+    return "std::string";
+}
+
+std::string repeat(const std::string& s, int n = 2) {
+    std::string d{};
+    for (int i = 0; i < n; i++)
+        d.append(s);
+
+    return d;
+}
+
+[[nodiscard]]
+bool is_prime(int n) {
+    if (n < 2)
+        return false;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+long long factorial(int n) {
+    if (n <= 1) {
+        return n;
+    }
+
+    return factorial(n - 1) * n;
+}
+
+long long fib(int n) {
+    if (n <= 2)
+        return n;
+
+    return fib(n - 1) + fib(n - 2);
+}
+
+long long factorial_loop(int n) {
+    long long factorial = 1;
+
+    for (int i = 1; i <= n; i++) {
+        factorial *= i;
+    }
+
+    return factorial;
+}
+
+long long fib_loop(int n) {
+    if (n <= 2)
+        return n;
+
+    int a = 1;
+    int b = 1;
+    int c = 0;
+
+    for (int i = 2; i < n; i++) {
+        c = a + b;
+        a = b;
+        b = c;
+    }
+
+    return c;
+}
+
+int next_id() {
+    static int counter = 0;
+    return ++counter;
+}
+
+namespace math {
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+
+    return a;
+}
+
+}; // namespace math
+
+int data = 5;
+
 int main() {
     // TODO
     // 1.
@@ -100,7 +193,43 @@ int main() {
     // by_ref("abc");
     std::println("{}", s);
 
-    // 3.
+    // 3
+    std::println("{}", describe(5));      // int
+    std::println("{}", describe(5.0));    // double
+    std::println("{}", describe("text")); // string
+
+    // std::println("{}", describe(5L));
+    // std::println("{}", describe(5u));
+
+    std::println("{}", describe(5.0f)); // double
+    std::println("{}", describe(true)); // int
+
+    // 4
+    assert(repeat("ab") == "abab" && repeat("ab", 3) == "ababab");
+
+    // 5.
+    is_prime(4);
+
+    // 6.
+    // assert(factorial(20) == 2432902008176640000);
+
+    // std::println("{}", fib(20));
+    // std::println("{}", factorial(20));
+
+    std::println("{}", fib_loop(20));
+    std::println("{}", factorial(20));
+
+    // 7. i have seen that pattern in classes. Methods in classes have access to its properties
+
+    std::println("{}", next_id());
+    std::println("{}", next_id());
+    std::println("{}", next_id());
+
+    // 8.
+
+    std::println("{}", math::gcd(4, 45));
+
+    std::println("{}", data);
 }
 
 int twice(int x) {
