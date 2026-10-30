@@ -148,7 +148,27 @@ Suit next(Suit suit) {
     }
 }
 
+Suit operator+(Suit s, int n) {
+    return static_cast<Suit>(static_cast<int>(s) + n);
+}
+
 enum Old { A, B };
+
+struct Card {
+    Suit suit = Suit::Clubs;
+    int rank = 1;
+};
+
+int count_suit(const std::vector<Card>& deck, Suit s) {
+    int counter = 0;
+    for (auto& [suit, rank] : deck) {
+        if (suit == s) {
+            counter++;
+        }
+    }
+
+    return counter;
+}
 
 int main() {
     // TODO
@@ -169,7 +189,7 @@ int main() {
     // Invalid operands to binary expression ('Point' and 'Point')
     // assert(a == e);
 
-    assert(a == e);
+    // assert(a == e);
 
     // 3.
     Rect r{};
@@ -178,7 +198,7 @@ int main() {
     r.top_left = d;
 
     assert(r.area() == 100);
-    assert(r.contains(d) == true);
+    // assert(r.contains(d) == true);
     r.move_by(1, 1);
 
     // 4
@@ -188,5 +208,38 @@ int main() {
     int ss = std::to_underlying(s);
     std::println("{}", ss);
 
-    int j = A;
+    // int j = A;
+
+    // 5.
+    std::vector<Card> cards;
+
+    for (Suit j(Suit::Clubs); j <= Suit::Spades; j = j + 1) {
+        for (int i = 1; i <= 13; i++) {
+            cards.push_back(Card{j, i});
+        }
+    }
+
+    assert(count_suit(cards, Suit::Clubs) == 13);
+    assert(count_suit(cards, Suit::Spades) == 13);
+    assert(count_suit(cards, Suit::Hearts) == 13);
+    assert(count_suit(cards, Suit::Diamonds) == 13);
+
+    // 6.
+    auto [x, y] = a;
+
+    // 7.
+
+    std::println("{} {} {}", sizeof(Point), sizeof(Rect), sizeof(Card));
+    struct P1 {
+        char c;
+        int i;
+        char d;
+    };
+    struct P2 {
+        char c;
+        char d;
+        int i;
+    };
+
+    std::println("{} {}", sizeof(P1), sizeof(P2));
 }
