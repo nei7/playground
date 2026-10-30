@@ -70,6 +70,175 @@
 #include <string_view>
 #include <vector>
 
+int count_occurrences(const std::string& text, const std::string& word) {
+    if (word.empty())
+        return 0;
+
+    auto index = text.find(word);
+    int count = 0;
+
+    // may not overlap
+    while (index != std::string::npos) {
+        count++;
+
+        // may not overlap
+        // auto s = text.find(word, index + word.size());
+
+        // may overlap
+        auto s = text.find(word, index + 1);
+
+        index = s;
+    }
+
+    return count;
+}
+
+bool is_palindrome(const std::string& s) {
+    if (s.empty())
+        return false;
+
+    int start = 0;
+    int end = s.size() - 1;
+
+    while (end > start) {
+        if (s.at(start) != s.at(end)) {
+            return false;
+        }
+
+        start++;
+        end--;
+    }
+
+    return true;
+}
+
+std::string to_upper(std::string s) {
+    for (auto& c : s) {
+        c = static_cast<char>(toupper(c));
+    }
+
+    return s;
+}
+
+std::string trim(const std::string& s) {
+    const char* whitespace = " \t\n\r\f\v";
+
+    const auto start = s.find_first_not_of(whitespace);
+    if (start == std::string::npos) {
+        return "";
+    }
+    const auto end = s.find_last_not_of(whitespace);
+
+    return s.substr(start, end - start + 1);
+}
+
+std::vector<std::string> split(const std::string& s, char sep) {
+    std::vector<std::string> vec;
+
+    std::size_t start_index = 0;
+    std::size_t end_index = s.find(sep);
+
+    while (end_index != std::string::npos) {
+        auto str = s.substr(start_index, end_index - start_index);
+        std::println("{}", str);
+        vec.push_back(str);
+
+        start_index = end_index + 1;
+        end_index = s.find(sep, start_index);
+    }
+
+    vec.push_back(s.substr(start_index));
+
+    return vec;
+}
+
+bool starts_with_hello(std::string_view s) {
+    if (s.substr(0, 5) == "hello") {
+
+        return true;
+    }
+    return false;
+}
+
 int main() {
     // TODO
+
+    // 1.
+    std::string a = "hello";
+    std::string b(5, 'x');
+    std::string c = a + " " + b;
+    std::string d{a};
+    d += '!';
+
+    // Invalid operands to binary expression ('const char[6]' and 'const char[6]')
+    // auto bad = "hello" + "world";
+    std::println("{} {} {} {}", a.size(), b.size(), c.size(), d.size());
+
+    auto s = std::string{"hello"} + " world";
+    using namespace std::literals;
+    auto e = "hello"s;
+
+    // 2.
+    std::println("{} {} {}", a[0], a.front(), a.back());
+
+    try {
+        std::println("{}", a.at(100));
+    } catch (const std::out_of_range& e) {
+        std::println("{}", e.what());
+    }
+
+    // std::println("{}", a[100]);
+
+    // 3, its alway true because npos is positive value and found indexes can't be negative
+    std::string s2 = "hello world needle";
+    auto pos = s2.find("needle");
+
+    std::println("{}", std::string::npos);
+
+    if (pos == std::string::npos) {
+        std::println("{}", std::string::npos);
+    }
+    std::println("{}", pos);
+
+    std::println("{}", count_occurrences("abababa", "aba"));
+
+    // 4
+    assert(is_palindrome("kayak") == true);
+    assert(is_palindrome("ab") == false);
+    assert(is_palindrome("") == false);
+
+    std::println("{}", to_upper("hej"));
+
+    std::println("{}", split("a,b,,c", ','));
+
+    std::println("{} {}", split("", ','), split("a,", ','));
+
+    // 5
+
+    try {
+        std::println("{} {} {} {} {}", std::to_string(42), std::stoi("abc"), std::stoi("42"),
+                     std::stoi("42abc"), std::stoi("99999999999"));
+
+    } catch (const std::invalid_argument& err) {
+        std::println("{}", err.what());
+    } catch (const std::out_of_range& err) {
+        std::println("{}", err.what());
+    }
+
+    std::string a1 = "42adsf";
+    int wynik = 0;
+
+    auto r = std::from_chars(a1.data(), a1.data() + a1.size(), wynik);
+
+    std::println("value = {}", wynik);               // 42
+    std::println("sukces? {}", r.ec == std::errc{}); // true
+
+    // 6.
+    const char* literal = "fdsfsd";
+    std::println("{} {} {}", starts_with_hello("hello sdfs"), starts_with_hello(literal),
+                 starts_with_hello(a.substr(0)));
+
+    // 7.
+    std::println("[{:>8}] [{:<8}] [{:^8}]", "r", "l", "c");
+    std::println("{:08.3f} {:x} {:#x} {:#b} {:+}", 3.14159, 255, 255, 5, 7);
 }
