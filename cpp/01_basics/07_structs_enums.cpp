@@ -67,6 +67,126 @@
 #include <utility>
 #include <vector>
 
+struct Point {
+    int x;
+    int y;
+
+    bool operator==(const Point&) const = default;
+
+    std::string to_string() const {
+        return "(" + std::to_string(x) + "," + std::to_string(y) + ")";
+    }
+};
+
+struct Rect {
+    Point top_left;
+    int w = 0;
+    int h = 0;
+    int area() const;             // const: promises not to modify *this
+    bool contains(Point p) const; // are the edges inside? decide, write it in a comment
+    void move_by(int dx, int dy); // not const: modifies
+};
+
+int Rect::area() const {
+    return w * h;
+}
+
+bool Rect::contains(Point p) const {
+    return (p.x > top_left.x && p.x < top_left.x + w) && (p.y < top_left.y && p.y > top_left.y - h);
+}
+
+void Rect::move_by(int dx, int dy) {
+    top_left.x += dx;
+    top_left.y += dy;
+}
+
+enum class Suit { Clubs, Diamonds, Hearts, Spades };
+
+std::string_view to_string(Suit suit) {
+    std::string_view result;
+
+    switch (suit) {
+    case Suit::Spades:
+        result = "spades";
+        break;
+
+    case Suit::Diamonds:
+        result = "diamonds";
+        break;
+
+    case Suit::Hearts:
+        result = "hearts";
+        break;
+
+    case Suit::Clubs:
+        result = "clubs";
+        break;
+
+        // default:
+        //     std::unreachable();
+    }
+
+    return result;
+}
+
+Suit next(Suit suit) {
+    switch (suit) {
+    case Suit::Spades:
+        return Suit::Clubs;
+
+    case Suit::Diamonds:
+        return Suit::Hearts;
+
+    case Suit::Hearts:
+        return Suit::Spades;
+
+    case Suit::Clubs:
+        return Suit::Diamonds;
+
+    default:
+        std::unreachable();
+    }
+}
+
+enum Old { A, B };
+
 int main() {
     // TODO
+
+    Point a{1, 2};
+    Point b{.x = 1, .y = 2};
+    Point c{};
+    Point d{0, 0};
+
+    std::println("a = ({}, {})", a.x, a.y);
+    std::println("b = ({}, {})", b.x, b.y);
+    std::println("c = ({}, {})", c.x, c.y);
+    std::println("d = ({}, {})", d.x, d.y);
+
+    Point e = a;
+    e.x = 99;
+
+    // Invalid operands to binary expression ('Point' and 'Point')
+    // assert(a == e);
+
+    assert(a == e);
+
+    // 3.
+    Rect r{};
+    r.w = 10;
+    r.h = 10;
+    r.top_left = d;
+
+    assert(r.area() == 100);
+    assert(r.contains(d) == true);
+    r.move_by(1, 1);
+
+    // 4
+    Suit s = Suit::Hearts;
+    // int i = s;
+
+    int ss = std::to_underlying(s);
+    std::println("{}", ss);
+
+    int j = A;
 }

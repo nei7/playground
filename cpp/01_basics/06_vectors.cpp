@@ -61,9 +61,183 @@
 #include <numeric>
 #include <print>
 #include <stdexcept>
+#include <string>
 #include <utility>
 #include <vector>
 
+void print(const std::vector<int>& v) {
+    std::string result{"["};
+
+    std::string sep;
+    for (auto number : v) {
+        result += sep;
+        sep = ", ";
+        result += std::to_string(number);
+    }
+
+    result += ']';
+
+    std::println("{}", result);
+}
+
+void show(int arr[]) {
+    std::println("{}", sizeof(arr));
+}
+
+int sum(const std::vector<int>& v) {
+    int result = 0;
+
+    for (auto n : v) {
+        result += n;
+    }
+
+    return result;
+}
+
+int max_of(const std::vector<int>& v) {
+    assert(!v.empty());
+    int max = v.front();
+
+    for (auto n : v) {
+        if (n > max) {
+            max = n;
+        }
+    }
+
+    return max;
+}
+
+std::vector<int> evens(const std::vector<int>& v) {
+
+    std::vector<int> result;
+
+    for (auto n : v) {
+        if (n % 2 == 0) {
+            result.push_back(n);
+        }
+    }
+
+    return result;
+}
+
+bool contains(const std::vector<int>& v, int x) {
+    for (auto n : v) {
+        if (n == x) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void reverse_in_place(std::vector<int>& v) {
+    for (std::size_t i = 0; i < v.size() / 2; ++i) {
+        std::swap(v[i], v[v.size() - 1 - i]);
+    }
+}
+
+int col_sum(const std::vector<std::vector<int>>& g, std::size_t r) {
+    int total = 0;
+    for (std::size_t i = 0; i < g.size(); i++) {
+        total += g.at(i).at(r);
+    }
+
+    return total;
+}
+
+int row_sum(const std::vector<std::vector<int>>& g, std::size_t c) {
+    int total = 0;
+    for (auto el : g.at(c)) {
+        total += el;
+    }
+
+    return total;
+}
+
 int main() {
     // TODO
+
+    // 1.
+    int a[5] = {1, 2, 3};
+
+    // a[5] = 0;
+    show(a);
+    std::println("{}", a);
+
+    // 2.
+    std::array<int, 5> b{1, 2, 3};
+    std::println("{}", b.size());
+
+    for (auto& e : b) {
+        std::println("{}", e);
+    }
+
+    // 3
+    std::vector<int> v;
+
+    v.push_back(10);
+    std::println("{} {} {} {}", v.size(), v.empty(), v.front(), v.back());
+
+    v.push_back(20);
+    std::println("{} {} {} {}", v.size(), v.empty(), v.front(), v.back());
+
+    v.push_back(30);
+    std::println("{} {} {} {}", v.size(), v.empty(), v.front(), v.back());
+
+    // v.pop_back();
+    // v.insert(v.begin(), 5);
+    // v.erase(v.begin());
+    // v.clear();
+
+    print(v);
+
+    // 4.
+    std::vector<int> x(5);
+    std::vector<int> y(5, 7);
+    std::vector<int> z{5, 7};
+
+    std::println("{} {} {}", x, y, z);
+
+    // 5. Because size_t has an unsigned type it can't reach negative values so when it goes down to
+    // zero it is going out of the range and value changes to maximum
+    std::println("{}", v.size());
+    for (std::size_t i = v.size(); i-- > 0;) {
+        std::println("{}", i);
+    }
+
+    // 6.
+    std::vector<int> test{};
+    assert(sum(test) == std::accumulate(test.begin(), test.end(), 0));
+
+    assert(max_of(test) == 0);
+
+    assert(std::ranges::max_element(test) == test.end());
+
+    std::vector<int> test2{1, 2, 3, 4};
+
+    assert(evens(test2) == std::vector<int>{1, 2, 3, 4});
+
+    std::vector<int> test3{1, 2, 3, 4};
+
+    reverse_in_place(test2);
+    assert(test2 == std::vector<int>{4, 3, 2, 1});
+
+    std::vector<int> test4{1, 2, 3, 4};
+    std::ranges::reverse(test4);
+    assert(test4 == std::vector<int>{4, 3, 2, 1});
+
+    auto it = std::ranges::find(test2, 2);
+    assert(it != test2.end());
+    std::println("{}", *it);
+    assert((it != test2.end()) == contains(test2, 2));
+
+    auto none = std::ranges::find(test2, 42);
+    assert(none == test2.end());
+    assert(!contains(test2, 42));
+
+    assert(*std::ranges::max_element(test2) == max_of(test2));
+
+    // 7.
+
+    std::vector<std::vector<int>> grid(3, std::vector<int>(4, 0));
 }
