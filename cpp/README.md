@@ -12,6 +12,8 @@ cpp/
   01_basics/        the language core: types, initialization, control flow,
                     functions, strings, vectors, structs and enums, input/output
   02_memory/        values vs references, lifetime, heap, unique_ptr, RAII
+  03_classes/       designing types: invariants, constructors, rule of 0/3/5,
+                    operators; plus data structures and algorithms in practice
   Makefile          builds any file by its bare name, no registration needed
   flake.nix .envrc  the toolchain (g++, clangd, gdb, valgrind)
   .vscode/          build / run / debug the open file
@@ -27,7 +29,7 @@ them in. Each exercise is one file: the task is a numbered comment at the top,
 |----|-------------------|---------------------------------------------------------------|---------|
 | 01 | `01_basics/`      | types, initialization, control flow, functions, std::string, std::vector, struct/enum, I/O | ready |
 | 02 | `02_memory/`      | copy vs reference vs pointer, lifetime, dangling, heap, unique_ptr, RAII | ready |
-| 03 | `03_classes/`     | constructors, special members, rule of 0/3/5, invariants, operators | planned |
+| 03 | `03_classes/`     | constructors, special members, rule of 0/3/5, invariants, operators; DS&A: dynamic array, ring buffer, BFS, binary search, intervals, greedy | ready |
 | 04 | `04_move/`        | value categories, move semantics, std::move / std::forward     | planned |
 | 05 | `05_templates/`   | function and class templates, lambdas, auto, concepts          | planned |
 | 06 | `06_stl/`         | containers, iterators, algorithms, ranges                      | planned |

@@ -1,0 +1,10 @@
+# Weekend trip, four people. One expense per line:
+# payer amount participant participant ...
+ala 360.00 ala bartek celina darek
+bartek 84.50 bartek celina
+celina 100.00 ala bartek celina
+darek 245.99 darek ala bartek celina
+bartek 12.555 ala bartek
+ala 30 celina
+
+darek 60.00

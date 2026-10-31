@@ -1,2 +1,5 @@
 bin/
 compile_commands.json
+# files written by the exercises
+*.pgm
+*.log

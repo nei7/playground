@@ -33,6 +33,7 @@ struct Loud {
         std::cout << "dtor " << name << '\n';
     }
 };
+void take(std::unique_ptr<Loud> p) {}
 
 int main() {
     // TODO
