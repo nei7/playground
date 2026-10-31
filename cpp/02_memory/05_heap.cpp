@@ -17,8 +17,25 @@
 
 #include <iostream>
 #include <memory>
+#include <print>
 #include <vector>
 
 int main() {
     // TODO
+    // int* p = new int[10];
+    int sum = 0;
+    // for (int i = 0; i < 10; i++) {
+    //     p[i] = i;
+    //     sum += i;
+    // }
+    // std::println("{}", sum);
+    // delete[] p;
+
+    std::unique_ptr<int[]> p2 = std::make_unique<int[]>(10);
+
+    for (int i = 0; i < 10; i++) {
+        p2[i] = i;
+        sum += i;
+    }
+    std::println("{}", sum);
 }

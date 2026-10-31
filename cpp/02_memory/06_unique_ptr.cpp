@@ -21,13 +21,35 @@
 #include <utility> // std::move
 #include <vector>
 
+#include <assert.h>
+
 struct Loud {
     std::string name;
 
-    explicit Loud(std::string n) : name(n) { std::cout << "ctor " << name << '\n'; }
-    ~Loud() { std::cout << "dtor " << name << '\n'; }
+    explicit Loud(std::string n) : name(n) {
+        std::cout << "ctor " << name << '\n';
+    }
+    ~Loud() {
+        std::cout << "dtor " << name << '\n';
+    }
 };
 
 int main() {
     // TODO
+
+    auto p = std::make_unique<Loud>("heap");
+
+    // auto q = p;
+
+    auto r = std::move(p);
+    assert(p == nullptr);
+    // assert(p != nullptr);
+
+    // 3.
+    std::vector<std::unique_ptr<Loud>> v{};
+    auto x = std::make_unique<Loud>("heap");
+
+    v.push_back(std::move(x));
+    v.push_back(std::move(x));
+    v.push_back(std::move(x));
 }

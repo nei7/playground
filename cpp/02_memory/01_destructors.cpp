@@ -18,15 +18,27 @@
 struct Loud {
     std::string name;
 
-    explicit Loud(std::string n) : name(n) { std::cout << "ctor " << name << '\n'; }
-    ~Loud() { std::cout << "dtor " << name << '\n'; }
+    explicit Loud(std::string n) : name(n) {
+        std::cout << "ctor " << name << '\n';
+    }
+    ~Loud() {
+        std::cout << "dtor " << name << '\n';
+    }
 };
 
+// 2. yes they still ran all of them
+//
 int main() {
+
     Loud a("a");
     {
         Loud b("b");
         Loud c("c");
     }
     std::cout << "end of main\n";
+
+    try {
+        throw std::runtime_error("x");
+    } catch (std::exception& e) {
+    }
 }

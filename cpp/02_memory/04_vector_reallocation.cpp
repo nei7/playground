@@ -21,10 +21,20 @@
 //           "Iterator invalidation")
 
 #include <iostream>
+#include <print>
 #include <string>
 #include <string_view>
 #include <vector>
 
 int main() {
     // TODO
+    std::vector<int> v;
+    v.push_back(1);
+    v.reserve(1001);
+    int* first = &v[0];
+    for (int i = 0; i < 1000; ++i) {
+        v.push_back(i);
+        std::println("{}", v.capacity());
+    }
+    std::cout << *first << '\n';
 }

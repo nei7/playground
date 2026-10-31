@@ -17,6 +17,7 @@
 //           https://en.cppreference.com/w/cpp/language/pointer
 
 #include <iostream>
+#include <print>
 #include <string>
 #include <string_view>
 
@@ -25,6 +26,46 @@ struct Point {
     int y;
 };
 
+void inc_copy(int x) {
+    x++;
+}
+void inc_ref(int& x) {
+    x++;
+}
+
+void inc_ptr(int* x) {
+    x++;
+}
+
 int main() {
     // TODO
+
+    // 1.
+    int x = 10;
+    inc_copy(x);
+    std::println("{}", x);
+
+    inc_ref(x);
+    std::println("{}", x);
+
+    inc_ptr(&x);
+    std::println("{}", x);
+
+    // 2.
+    Point a{10, 11};
+    Point b = a;
+    b.x = 121;
+
+    std::println("{}", a.x);
+
+    Point& r = a;
+    r.x = 12;
+    std::println("{}", a.x);
+
+    // 3. string_view has only memory address for the begingi char and it stores also size???
+    std::println("{} {} {} {} {}", sizeof(Point), sizeof(int*), sizeof(Point&),
+                 sizeof(std::string_view), sizeof(std::string));
+
+    // 4. sanitaizer said nothing program compiled and ran succesfully
+    inc_ptr(nullptr);
 }

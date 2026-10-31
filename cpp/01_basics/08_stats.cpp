@@ -52,11 +52,145 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <numeric>
 #include <print>
 #include <sstream>
 #include <string>
 #include <vector>
 
+double median(std::vector<double> values) {
+    assert(!values.empty());
+    std::size_t mid = values.size() / 2;
+
+    std::sort(values.begin(), values.end());
+
+    if (values.size() % 2 == 0) {
+
+        return (values.at(mid) + values.at((mid - 1))) / 2;
+    }
+
+    return values.at(mid);
+}
+
+double mean(const std::vector<double>& values) {
+    std::size_t size = values.size();
+    if (size == 0)
+        return 0;
+
+    double sum = 0;
+
+    for (auto n : values) {
+        sum += n;
+    }
+
+    return sum / static_cast<double>(size);
+}
+
+struct Input {
+    std::vector<double> values;
+    int skipped = 0;
+};
+
+Input read_numbers(std::istream& in) {
+    std::string line;
+
+    std::size_t idx = 0;
+
+    Input input{};
+
+    while (std::getline(in, line)) {
+        std::istringstream words{line};
+        std::string token;
+
+        while (words >> token) {
+
+            try {
+                double d = std::stod(token, &idx);
+                std::println("converted token: {}", d);
+
+                if (idx == token.size()) {
+                    input.values.push_back(d);
+                } else {
+                    input.skipped++;
+                }
+
+            } catch (std::exception& e) {
+                input.skipped++;
+            }
+        }
+    }
+
+    return input;
+}
+
+struct Stats {
+    double median = 0;
+    double mean = 0;
+    double sum = 0;
+    double min = 0;
+    double max = 0;
+    std::size_t count = 0;
+};
+
+Stats compute(const std::vector<double>& v) {
+
+    Stats stats{};
+
+    stats.count = v.size();
+    stats.mean = mean(v); //      void print(const Stats& s);
+
+    stats.median = median(v);
+    stats.max = *std::max_element(v.begin(), v.end());
+    stats.min = *std::min_element(v.begin(), v.end());
+    stats.sum = std::accumulate(v.begin(), v.end(), 0.0);
+
+    return stats;
+}
+
 int main() {
     // TODO
+
+    // 1.
+    // double x;
+    // while (std::cin >> x) {
+    //     std::println("{}", x);
+    // }
+
+    // std::println("{}", std::cin.fail());
+
+    // 2.
+    // std::string line;
+
+    // std::size_t idx = 0;
+    // std::vector<double> values;
+    // int skipped = 0;
+    // while (std::getline(std::cin, line)) {
+    //     std::istringstream words{line};
+    //     std::string token;
+
+    //     while (words >> token) {
+
+    //         try {
+    //             double d = std::stod(token, &idx);
+    //             std::println("converted token: {}", d);
+
+    //             if (idx == token.size()) {
+    //                 values.push_back(d);
+    //             } else {
+    //                 skipped++;
+    //             }
+
+    //         } catch (std::exception& e) {
+    //             skipped++;
+    //         }
+    //     }
+    // }
+    // std::println("skipped {} invalid token(s)", skipped);
+
+    // // 3.
+
+    // std::println("count: {}", values.size());
+    // std::println("sum: {}", std::reduce(values.begin(), values.end()));
+
+    // std::println("min: {}", *std::min_element(values.begin(), values.end()));
 }
